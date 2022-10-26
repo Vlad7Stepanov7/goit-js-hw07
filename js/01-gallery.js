@@ -30,30 +30,32 @@ gallery.addEventListener(`click`, onBtnClickOpenOriginalImage);
 
 function onBtnClickOpenOriginalImage(event) {
   event.preventDefault();
-// проверяем клик на шьп
+ 
+// проверяем клик на IMG
   if (event.target.nodeName !== "IMG") {
     return
   }
-  // открытие модалки
-  const instance = basicLightbox.create(`
-  <img src="${event.target.dataset.source}">
-  `);
-  instance.show();
+  // открытие модалки, вешаем и снимаем событие в зависимости от того открыта ли модалка
+  const instance = basicLightbox.create(
+    `<img src="${event.target.dataset.source}">`,
+    {
+      onShow: instance => {
+        window.addEventListener(`keydown`, onEscPress);
+      },
+      onClose: instance => {
+        window.removeEventListener(`keydown`, onEscPress);
+      }
+    });
   
-  gallery.addEventListener(`keydown`, (evt) => {
+  function onEscPress(evt) {
     if (evt.code === `Escape`) {
       instance.close();
+      console.log(`Hi`);
     }
-  });
+  }
 
+  instance.show();
 };
 
 
-
-// function onKeyDownEsc(evt) {
-//   console.log(evt.code === `Escape`);
-//   if (evt.code === `Escape`) {
-//     instance.close();
-//   }
-// };
 
