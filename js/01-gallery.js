@@ -50,7 +50,6 @@ function onBtnClickOpenOriginalImage(event) {
   function onEscPress(evt) {
     if (evt.code === `Escape`) {
       instance.close();
-      console.log(`Hi`);
     }
   }
 
